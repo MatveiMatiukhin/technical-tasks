@@ -26,3 +26,13 @@ jobs:
     - name: Test with Maven
       run: mvn test
 
+    - name: Notify on Success
+      if: success()
+      run: |
+        curl -X POST -H "Content-Type: application/json" -d '{"chat_id": "1098482972", "text": "Все тесты прошли успешно."}' https://api.telegram.org/bot6843364517:AAG19zIZfByrqsMfsbHaaFtPAlnhdLUYC-Q/sendMessage
+
+
+    - name: Notify on Failure
+      if: failure()
+      run: |
+        curl -X POST -H "Content-Type: application/json" -d '{"chat_id": "1098482972", "text": "Ошибка в тестах, проверьте результаты."}' https://api.telegram.org/bot6843364517:AAG19zIZfByrqsMfsbHaaFtPAlnhdLUYC-Q/sendMessage
